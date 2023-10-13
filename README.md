@@ -168,10 +168,12 @@ We should see a record in the database in the `f_traces` table (refresh the tabl
 
 **Note**: There should be 1 record that starts with id of 1. If the id of that record is not 1, change it to 1.
 
-Now that we have the trace, we want to go back to the and compile the MIPS VM circuit using Zokrates
+Now that we have the trace, we want to go back, Clone [mips_circuit](https://github.com/zkMIPS/mips_circuit/) and compile the MIPS VM circuit using Zokrates
 
 ```sh
-cd ../../mips_circuit
+cd ../..
+git clone https://github.com/zkMIPS/mips_circuit
+cd mips_circuit
 pushd core/lib/circuit
 zokrates compile -i mips_vm_poseidon.zok  # may need several minutes
 wget http://ec2-46-51-227-198.ap-northeast-1.compute.amazonaws.com/proving.key -O proving.key
@@ -268,6 +270,6 @@ And run the Prover
 nohup ./target/release/prover > prover.output 2>&1 &
 ```
 
-In a few seconds, you should be able to see your transaction [here](https://goerli.etherscan.io/address/0xc80242e0e7847c4bbac915002e8c294e10886554).
+In a few seconds, you should be able to see your transaction [here](https://goerli.etherscan.io/address/0xacd47ec395668320770e7183b9ee817f4ff8774e).
 
 Congratulations! You have completed the process of posting and verifying a ZK proof with the MIPS circuit.
