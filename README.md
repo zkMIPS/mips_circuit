@@ -1,6 +1,6 @@
 # Mips Circuit
 
-**This is a demo implementation of ZKMIPS for Community Education purposes, which serves as Phase 1 of the ZKM Early Contributor Program(ECP).** 
+**This is a demo implementation of ZKMIPS for Community Education purposes, which serves as Phase 1 of the ZKM Early Contributor Program(ECP).**
 
 The demo implementation uses the Cannon simulator, Zokrates DSL, and Groth16. It supports the full execution of Minigeth, outputs the entire instruction sequence, generates proofs for each instruction, and submits them to an on-chain contract for verification.
 
@@ -14,19 +14,20 @@ The demo implementation uses the Cannon simulator, Zokrates DSL, and Groth16. It
 
 - Install Make
 
-- Install [Zokrates](https://zokrates.github.io/gettingstarted.html), then set `$ZOKRATES_STDLIB` and `$PATH`:
+- Install [Zokrates](https://zokrates.github.io/gettingstarted.html). One-line installation is recommended or adjust the settings accordingly if installing from the source.
+  Set `$ZOKRATES_STDLIB` and `$PATH`:
 
   ```sh
-  export ZOKRATES_STDLIB=<path-to>/ZoKrates/zokrates_stdlib/stdlib
-  export PATH=<path-to>/ZoKrates/target/release:$PATH
+  export ZOKRATES_STDLIB=<path-to>/.zokrates/stdlib
+  export PATH=<path-to>/.zokrates/bin:$PATH
   ```
 
   This will be used to compile the MIPS VM circuit.
 
 - Install [postgres](https://www.postgresql.org/download/)
-  - You can follow [this](https://www.youtube.com/watch?v=RdPYA-wDhTA) guide to install using Docker
+  - You can follow [this](https://www.youtube.com/watch?v=RdPYA-wDhTA) video guide to install using Docker, or alternatively follow [these instructions](https://www.docker.com/blog/how-to-use-the-postgres-docker-official-image)
   - **NOTE: you cannot use a default empty password**, set the password to `postgres` for simplicity for the rest of the guide
-  - (Optional) Install [DBeaver](https://dbeaver.io/download/) or [pgadmin](https://www.pgadmin.org/download/): Using a Database Viewer make debugging and editing data much easier
+  - (Optional) Install [DBeaver](https://dbeaver.io/download/) or [pgadmin](https://www.pgadmin.org/download/): Using a Database Viewer make debugging and editing data much easier. For a non-UI version you can use [psql](https://www.timescale.com/blog/how-to-install-psql-on-mac-ubuntu-debian-windows/).
 
 ## Postgres Setup
 
