@@ -1,6 +1,6 @@
 # Mips Circuit
 
-**This is a demo implementation of ZKMIPS for Community Education purposes, which serves as Phase 1 of the ZKM Early Contributor Program(ECP).** 
+**This is a demo implementation of ZKMIPS for Community Education purposes, which serves as Phase 1 of the ZKM Early Contributor Program(ECP).**
 
 The demo implementation uses the Cannon simulator, Zokrates DSL, and Groth16. It supports the full execution of Minigeth, outputs the entire instruction sequence, generates proofs for each instruction, and submits them to an on-chain contract for verification.
 
@@ -14,19 +14,20 @@ The demo implementation uses the Cannon simulator, Zokrates DSL, and Groth16. It
 
 - Install Make
 
-- Install [Zokrates](https://zokrates.github.io/gettingstarted.html), then set `$ZOKRATES_STDLIB` and `$PATH`:
+- Install [Zokrates](https://zokrates.github.io/gettingstarted.html). One-line installation is recommended or adjust the settings accordingly if installing from the source.
+  Set `$ZOKRATES_STDLIB` and `$PATH`:
 
   ```sh
-  export ZOKRATES_STDLIB=<path-to>/ZoKrates/zokrates_stdlib/stdlib
-  export PATH=<path-to>/ZoKrates/target/release:$PATH
+  export ZOKRATES_STDLIB=<path-to>/.zokrates/stdlib
+  export PATH=<path-to>/.zokrates/bin:$PATH
   ```
 
   This will be used to compile the MIPS VM circuit.
 
 - Install [postgres](https://www.postgresql.org/download/)
-  - You can follow [this](https://www.youtube.com/watch?v=RdPYA-wDhTA) guide to install using Docker
+  - You can follow [this](https://www.youtube.com/watch?v=RdPYA-wDhTA) video guide to install using Docker, or alternatively follow [these instructions](https://www.docker.com/blog/how-to-use-the-postgres-docker-official-image)
   - **NOTE: you cannot use a default empty password**, set the password to `postgres` for simplicity for the rest of the guide
-  - (Optional) Install [DBeaver](https://dbeaver.io/download/) or [pgadmin](https://www.pgadmin.org/download/): Using a Database Viewer make debugging and editing data much easier
+  - (Optional) Install [DBeaver](https://dbeaver.io/download/) or [pgadmin](https://www.pgadmin.org/download/): Using a Database Viewer make debugging and editing data much easier. For a non-UI version you can use [psql](https://www.timescale.com/blog/how-to-install-psql-on-mac-ubuntu-debian-windows/).
 
 ## Postgres Setup
 
@@ -119,48 +120,11 @@ Click the Execute SQL Script button:
 
 ## Program Execution Records
 
-Clone [cannon-mips](https://github.com/zkMIPS/cannon-mips/) into another folder and generate the program execution records
+Clone [cannon-mips](https://github.com/zkMIPS/cannon-mips/) into another folder and follow its instructions to generate the program execution records. Notes:
 
-```sh
-cd ..
-git clone https://github.com/zkMIPS/cannon-mips
-cd cannon-mips
-make build
-```
-
-In this proof, we are computing the transition from block 13284469 -> 13284470 on the Ethereum Mainnet
-
-We first want to set the folder that the computations will be done from
-
-```sh
-export BASEDIR=/tmp/cannon
-mkdir -p /tmp/cannon
-```
-
-Next, we have to add in a mainnet node that we will use to pull the block information from. Please use your own alchemy/infura account for this link
-
-```sh
-export NODE=<mainnet-node> # example: https://eth-mainnet.g.alchemy.com/v2/YOUR_ID_HERE
-```
-
-Lets run the code to pull the block information
-
-```sh
-minigeth/go-ethereum 13284469
-```
-
-Now that we have the block information, we want to generate a proof. We need to use the database to store this information
-
-```sh
-export POSTGRES_CONFIG="sslmode=disable user=postgres password=postgres host=localhost port=5432 dbname=postgres"
-```
-
-Now that we have the database connection setup, we want to generate 1 MIPS trace
-
-```sh
-cd mipsevm
-./mipsevm -b 13284469 -s 1
-```
+- Please use your own Alchemy/Infura account
+- For the POSTGRES configuration, you can use: `export POSTGRES_CONFIG="sslmode=disable user=postgres password=postgres host=172.17.0.2 port=5432 dbname=postgres"`. Note that the host points to a bridged Docker host.
+- If you have issues with your db login you can try resetting the password: `docker exec -it postgres psql -U postgres -c "ALTER USER postgres WITH PASSWORD 'postgres';"`
 
 We should see a record in the database in the `f_traces` table (refresh the table if you don't see it)
 
